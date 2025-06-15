@@ -10,20 +10,36 @@ exports.generateRecipe = async (preferences) => {
   const prompt = createPrompt(preferences);
   const response = await callChatGPT(prompt);
   const formattedResponse = formatJson(response);
-
   return formattedResponse;
 };
 
 const createPrompt = (preferences) => {
   return `Generate at least 3 and at most 5 recipes based on the following preferences: 
-        Ingredients: ${preferences.ingredients.join(", ")}, 
-        Dietary Restrictions: ${preferences.dietaryRestrictions.join(", ")}, 
-        Cuisine Type: ${preferences.cuisineType}, 
-        Cooking Time: ${preferences.cookingTime}, 
-        Difficulty Level: ${preferences.difficultyLevel}, 
-        Serving Size: ${
-          preferences.servingSize
-        }.Respond ONLY with a valid JSON object for the recipe, no extra text or formatting. The fields should be: title, description, ingredients (array), instructions (array), cookingTime, difficulty, servings, cuisine, dietaryInfo, nutrition,food image url.`;
+Ingredients: ${preferences.ingredients.join(", ")}, 
+Dietary Restrictions: ${preferences.dietaryRestrictions.join(", ")}, 
+Cuisine Type: ${preferences.cuisineType}, 
+Cooking Time: ${preferences.cookingTime}, 
+Difficulty Level: ${preferences.difficultyLevel}, 
+Serving Size: ${preferences.servingSize}.
+
+Respond ONLY with a valid JSON array containing 4 to 5 recipes objects and NO extra text or formatting. 
+
+Each recipe object must contain the following fields:
+- title (string)
+- description (string)
+- ingredients (array of strings)
+- instructions (array of strings)
+- cookingTime (string or number)
+- difficulty (string)
+- servings (number)
+- cuisine (string)
+- dietaryInfo (array of strings)
+- nutrition (object with keys like calories, protein, etc.)
+- food_image_url (a direct image URL of the food that visually matches the recipe)
+- id (a unique string or number)
+- tag (array of keywords)
+
+The **food_image_url** must be a relevant, high-quality image of the specific recipe title.`;
 };
 
 const callChatGPT = async (prompt) => {

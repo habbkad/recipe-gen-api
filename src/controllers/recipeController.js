@@ -2,8 +2,6 @@ const { log } = require("winston");
 const { generateRecipe } = require("../services/chatGPTService");
 
 exports.createRecipe = async (req, res, next) => {
-  console.log("Received request to create a recipe with body:", req.body);
-
   try {
     const {
       ingredients,

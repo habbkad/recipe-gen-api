@@ -13,7 +13,7 @@ require("dotenv").config();
 // Middleware setup
 app.use(
   cors({
-    origin: "*", // Only allow this origin
+    origin: "http://localhost:8080", // Only allow this origin
     credentials: true, // If you need cookies or auth headers
   })
 );
